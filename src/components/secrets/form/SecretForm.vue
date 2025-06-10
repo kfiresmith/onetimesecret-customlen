@@ -18,6 +18,7 @@
   import { nanoid } from 'nanoid';
   import { computed, onMounted, ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
+  import { WindowService } from '@/services/window.service';
 
   import CustomDomainPreview from './../../CustomDomainPreview.vue';
   import SecretContentInputArea from './SecretContentInputArea.vue';
@@ -48,6 +49,9 @@
   const productIdentity = useProductIdentity();
   const concealedMetadataStore = useConcealedMetadataStore();
   const showProTip = ref(props.withAsterisk);
+  const secretOptions = WindowService.get('secret_options');
+  const lengthMin = secretOptions?.min_password_length ?? 8;
+  const lengthMax = secretOptions?.max_password_length ?? 128;
 
   // Helper function to get validation errors
   const getError = (field: keyof typeof form) => validation.errors.get(field);
@@ -56,6 +60,8 @@
   const uniqueId = computed(() => `secret-form-${Math.random().toString(36).substring(2, 9)}`);
   const passphraseId = computed(() => `passphrase-${uniqueId.value}`);
   const passphraseErrorId = computed(() => `passphrase-error-${uniqueId.value}`);
+  const lengthId = computed(() => `length-${uniqueId.value}`);
+  const lengthErrorId = computed(() => `length-error-${uniqueId.value}`);
   const lifetimeId = computed(() => `lifetime-${uniqueId.value}`);
   const lifetimeErrorId = computed(() => `lifetime-error-${uniqueId.value}`);
   const recipientId = computed(() => `recipient-${uniqueId.value}`);
@@ -262,6 +268,39 @@
               aria-live="assertive"
               class="mt-1 text-sm font-medium text-red-600 dark:text-red-400">
               {{ getError('passphrase') }}
+            </div>
+
+            <!-- Password Length Field -->
+            <div class="relative">
+              <h3>
+                <label
+                  :for="lengthId"
+                  class="mb-1 block font-brand text-sm text-gray-600 dark:text-gray-300">
+                  {{ $t('web.COMMON.password_length') }}
+                </label>
+              </h3>
+              <div class="relative">
+                <input
+                  type="number"
+                  :value="form.length"
+                  :id="lengthId"
+                  name="length"
+                  :min="lengthMin"
+                  :max="lengthMax"
+                  :aria-invalid="!!getError('length')"
+                  :aria-errormessage="getError('length') ? lengthErrorId : undefined"
+                  :class="[cornerClass]"
+                  class="w-full border border-gray-200 bg-white py-2.5 pl-5 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-gray-500"
+                  @input="(e) => operations.updateField('length', Number((e.target as HTMLInputElement).value))" />
+              </div>
+            </div>
+            <div
+              v-if="getError('length')"
+              :id="lengthErrorId"
+              role="alert"
+              aria-live="assertive"
+              class="mt-1 text-sm font-medium text-red-600 dark:text-red-400">
+              {{ getError('length') }}
             </div>
 
             <!-- Expiry Selection -->

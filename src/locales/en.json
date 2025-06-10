@@ -47,6 +47,7 @@
       "secret_privacy_options": "Privacy Options",
       "secret_passphrase": "Passphrase",
       "secret_passphrase_hint": "A word or phrase that's difficult to guess",
+      "password_length": "Password Length",
       "secret_recipient_address": "Recipient Address",
       "secret_placeholder": "Secret content goes here...",
       "header_create_account": "Create Account",

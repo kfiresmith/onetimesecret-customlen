@@ -60,6 +60,7 @@ export function useSecretConcealer(options?: SecretConcealerOptions) {
     passphrase: form.passphrase,
     recipient: form.recipient,
     share_domain: form.share_domain,
+    length: form.length,
   });
 
   /**

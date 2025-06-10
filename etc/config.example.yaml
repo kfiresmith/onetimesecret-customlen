@@ -94,6 +94,10 @@
     # These options will be presented to users when they create a new secret
     # Format: String of integers representing seconds
     :ttl_options: <%= (ENV['TTL_OPTIONS'] || nil) %>
+    # Minimum length for generated passwords
+    :min_password_length: <%= ENV['PASSWORD_MIN_LENGTH'] || 8 %>
+    # Maximum length for generated passwords
+    :max_password_length: <%= ENV['PASSWORD_MAX_LENGTH'] || 128 %>
   # Registration and Authentication settings
   :authentication:
     # Can be disabled altogether, including API authentication.

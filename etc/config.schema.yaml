@@ -39,6 +39,8 @@
   :secret_options:
     :default_ttl: any(str(), int())
     :ttl_options: str()
+    :min_password_length: any(str(), int())
+    :max_password_length: any(str(), int())
   :authentication:
     :enabled: any()
     :signup: any()
