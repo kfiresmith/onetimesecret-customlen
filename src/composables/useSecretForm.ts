@@ -20,12 +20,17 @@ export interface SecretFormState {
 /**
  * Form validation schema
  */
+const secretOptions = WindowService.get('secret_options');
+const lengthMin = secretOptions?.min_password_length ?? 8;
+const lengthMax = secretOptions?.max_password_length ?? 128;
+
 const formSchema = z.object({
   secret: z.string().min(1, 'Secret content is required'),
   ttl: z.number().min(1, 'Expiration time is required'),
   passphrase: z.string(),
   recipient: transforms.fromString.optionalEmail,
   share_domain: z.string(),
+  length: z.number().min(lengthMin).max(lengthMax).optional(),
 });
 
 /**
@@ -46,6 +51,7 @@ function getDefaultFormState(): SecretFormData {
     passphrase: '',
     recipient: '',
     share_domain: '',
+    length: 12,
   };
 }
 

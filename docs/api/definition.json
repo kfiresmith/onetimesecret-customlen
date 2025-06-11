@@ -1413,6 +1413,12 @@
                 "type": "string",
                 "pattern": "^[\\S]{8,64}$"
               },
+              "length": {
+                "type": "integer",
+                "minimum": 8,
+                "maximum": 128,
+                "default": 12
+              },
               "ttl": {
                 "oneOf": [
                   {

@@ -8,7 +8,14 @@ module V2::Logic
 
       def process_secret
         @kind = :generate
-        @secret_value = Onetime::Utils.strand(12)
+        secret_opts = OT.conf.dig(:site, :secret_options) || {}
+        min_len = secret_opts[:min_password_length] || 8
+        max_len = secret_opts[:max_password_length] || 128
+
+        length = payload.fetch(:length, 12).to_i
+        length = min_len if length < min_len
+        length = max_len if length > max_len
+        @secret_value = Onetime::Utils.strand(length)
       end
 
     end

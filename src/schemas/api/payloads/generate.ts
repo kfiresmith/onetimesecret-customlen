@@ -12,6 +12,7 @@ import { baseSecretPayloadSchema } from './base';
 
 export const generatePayloadSchema = baseSecretPayloadSchema.extend({
   kind: z.literal('generate'),
+  length: z.number().min(8).max(128).optional(),
 });
 
 export type GeneratePayload = z.infer<typeof generatePayloadSchema>;

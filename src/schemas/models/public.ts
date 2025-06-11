@@ -39,6 +39,28 @@ export const secretOptionsSchema = z.object({
     .array(z.number().int().positive().min(60).max(2592000))
     .transform((arr) => arr.map((val) => transforms.fromString.number.parse(val)))
     .default([300, 1800, 3600, 14400, 43200, 86400, 259200, 604800, 1209600, 2592000]),
+
+  /**
+   * Minimum length allowed for generated passwords
+   * Default: 8
+   */
+  min_password_length: z
+    .number()
+    .int()
+    .positive()
+    .default(8)
+    .transform((val) => transforms.fromString.number.parse(val)),
+
+  /**
+   * Maximum length allowed for generated passwords
+   * Default: 128
+   */
+  max_password_length: z
+    .number()
+    .int()
+    .positive()
+    .default(128)
+    .transform((val) => transforms.fromString.number.parse(val)),
 });
 
 /**

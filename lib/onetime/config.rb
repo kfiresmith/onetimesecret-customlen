@@ -27,7 +27,9 @@ module Onetime
               1.week,         # 604800
               2.weeks,        # 1209600
               30.days,        # 2592000
-            ]
+            ],
+            min_password_length: 8,
+            max_password_length: 128
           },
           interface: {
             ui: { enabled: true },
@@ -174,6 +176,16 @@ module Onetime
 
       if default_ttl.is_a?(String)
         conf[:site][:secret_options][:default_ttl] = default_ttl.to_i
+      end
+
+      min_len = conf.dig(:site, :secret_options, :min_password_length)
+      max_len = conf.dig(:site, :secret_options, :max_password_length)
+
+      if min_len.is_a?(String)
+        conf[:site][:secret_options][:min_password_length] = min_len.to_i
+      end
+      if max_len.is_a?(String)
+        conf[:site][:secret_options][:max_password_length] = max_len.to_i
       end
 
       # TODO: Move to an initializer
